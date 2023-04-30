@@ -15,6 +15,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-router": "^0.0.1",
-    "mongoose": "^5.11.15"
+    "mongoose": "^5.11.15",
+    "bcryptjs": "^2.4.3",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.0"
   }
 }
