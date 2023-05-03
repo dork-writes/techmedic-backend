@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const Users = require('../models/Users');
 const JWT_SECRET = "(FAR)^2";
 
-const getUser = async (req, res, next) =>
+const getAdmin = async (req, res, next) =>
 {   
     const token = req.header('auth-token');
 
@@ -10,13 +10,12 @@ const getUser = async (req, res, next) =>
     {
         return res.status(401).json({error: "Access Denied."});
     }
-    
     try
     {    
         const decryptedToken = jwt.verify(token, JWT_SECRET);
         const user = await Users.findById(decryptedToken.user).select('-password');
         
-        if (user.permission === 'customer')
+        if (user.permission === 'admin')
         {
             req.user = decryptedToken.user;
         }
@@ -36,4 +35,4 @@ const getUser = async (req, res, next) =>
     }
 }
 
-module.exports = getUser;
+module.exports = getAdmin;

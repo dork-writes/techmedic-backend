@@ -28,6 +28,12 @@ const UserSchema = mongoose.Schema(
         required: true
     },
 
+    permission:
+    {
+        type: String,
+        required: true
+    }
+
     //address if can be pointed with maps later
 });
 

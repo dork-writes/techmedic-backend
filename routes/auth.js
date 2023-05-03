@@ -35,7 +35,7 @@ router.post('/register',
         const salt = await bcrypt.genSalt(10);
         const encryptedPassword = await bcrypt.hash(password, salt);
 
-        user = await Users.create({name, password: encryptedPassword, email, username});
+        user = await Users.create({name, password: encryptedPassword, email, username, permission: 'customer'});
 
         const token = {
             user: user.id
@@ -63,7 +63,7 @@ router.post('/login',
 
     if (!errors.isEmpty())
     {
-        return res.status(400).json({errors: 'Wrong username or password.'});
+        return res.status(400).json({error: 'Wrong username or password.'});
     }
 
     try
@@ -80,7 +80,8 @@ router.post('/login',
                 }
 
                 const authToken = jwt.sign(token, JWT_SECRET);
-                return res.json(authToken);
+                const authObj = {authToken, permission: user.permission};
+                return res.json(authObj);
             }
             
             return res.status(401).json({error: 'Wrong username or password.'});
@@ -95,14 +96,13 @@ router.post('/login',
     }
 });
 
-
 //Always use getUser like this when authentication is required.
 router.get('/getuser', getUser, async(req, res) =>
 {
     try
     {
         const userID = req.user;
-        const user = await Users.findById(userID).select('-password');
+        const user = await Users.findById(userID).select('-password').select('-permission');
         return res.json(user);
     }
 

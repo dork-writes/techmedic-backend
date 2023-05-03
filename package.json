@@ -1,7 +1,6 @@
 {
   "name": "techmedic",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,5 +18,14 @@
     "bcryptjs": "^2.4.3",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dork-writes/techmedic-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dork-writes/techmedic-backend/issues"
+  },
+  "homepage": "https://github.com/dork-writes/techmedic-backend#readme",
+  "description": ""
 }

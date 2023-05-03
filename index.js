@@ -3,10 +3,13 @@ connectToMongo();
 let cors = require('cors');
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-app.use(cors());
 const port = 5000;
 
+app.use(cors());
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
