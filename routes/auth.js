@@ -5,6 +5,7 @@ const {body, validationResult} = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const getUser = require('../middleware/getUser');
+const getBoth = require('../middleware/getBoth');
 const JWT_SECRET = "(FAR)^2";
 
 router.post('/register', 
@@ -112,4 +113,18 @@ router.get('/getuser', getUser, async(req, res) =>
     }
 });
 
+router.get('/getusername/:userID', getBoth, async(req, res) =>
+{
+    try
+    {
+        const {userID} = req.params;
+        const user = await Users.findById(userID).select('-password').select('-permission');
+        return res.json(user.username);
+    }
+
+    catch(err)
+    {
+        return res.status(500).json({error: 'Unexpected error occured.'});
+    }
+});
 module.exports = router;

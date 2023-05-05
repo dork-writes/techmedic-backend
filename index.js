@@ -15,7 +15,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 
 app.use('/api/products', require('./routes/products'));
-
+app.use('/api/orders', require('./routes/orders'));
 app.use('/api/reviews', require('./routes/reviews'));
 
 app.use('/api/orderRepair', require('./routes/orderRepair'));
@@ -28,3 +28,4 @@ app.get('/', (req,res) =>
 app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+

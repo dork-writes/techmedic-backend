@@ -5,22 +5,23 @@ const router = express.Router();
 const Reviews = require('../models/Reviews');
 const getBoth = require('../middleware/getBoth');
 const {body, validationResult} = require('express-validator');
+const getUser = require('../middleware/getUser');
 
-router.post('/addReview', getBoth, 
+router.post('/addReview', getUser, 
 [
     body('review', 'Enter Review').isLength({min: 1}),
     body('rating', 'Rate out of 5').isLength({min: 1}),
 ], async(req, res) =>
 {
     const errors = validationResult(req);
-    const {productid, review, rating} = req.body;
-    const user = await User.findById(req.user);
-    const product = await Product.findById(productid);
-    
     if (!errors.isEmpty())
     {
         return res.status(400).json({error: errors.array()});
     }
+    const {productid, review, rating} = req.body;
+    const user = await User.findById(req.user);
+    const product = await Product.findById(productid);
+    
 
     // console.log(user);
     // console.log(product);
@@ -32,7 +33,7 @@ router.get('/getReview/:productid', getBoth, async (req, res)=>{
     const {productid} = req.params;
     let reviews = await Reviews.find();
     reviews = reviews.length ? reviews.filter(r => r.Product.toString() === productid.toString()) : reviews;
-    return reviews.length ? res.json({reviews}) : res.json({error: 'Be the first to add a review'});
+    return reviews.length ? res.json({reviews}) : res.json({error: 'No reviews yet.'});
 })
 
 module.exports = router;
