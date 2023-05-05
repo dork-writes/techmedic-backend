@@ -13,14 +13,14 @@ router.post('/addReview', getAdmin,
 ], async(req, res) =>
 {
     const errors = validationResult(req);
-    const {productid, review, rating} = req.body;
-    const user = await User.findById(req.user);
-    const product = await Product.findById(productid);
-    
     if (!errors.isEmpty())
     {
         return res.status(400).json({error: errors.array()});
     }
+    const {productid, review, rating} = req.body;
+    const user = await User.findById(req.user);
+    const product = await Product.findById(productid);
+    
 
     console.log(user);
     console.log(product);
