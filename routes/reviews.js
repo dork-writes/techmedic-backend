@@ -5,8 +5,9 @@ const router = express.Router();
 const Reviews = require('../models/Reviews');
 const getAdmin = require('../middleware/getAdmin');
 const {body, validationResult} = require('express-validator');
+const getUser = require('../middleware/getUser');
 
-router.post('/addReview', getAdmin, 
+router.post('/addReview', getUser, 
 [
     body('review', 'Enter Review').isLength({min: 1}),
     body('rating', 'Rate out of 5').isLength({min: 1}),
@@ -32,7 +33,7 @@ router.get('/getReview/:productid', getAdmin, async (req, res)=>{
     const {productid} = req.params;
     let reviews = await Reviews.find();
     reviews = reviews.length ? reviews.filter(r => r.Product.toString() === productid.toString()) : reviews;
-    return reviews.length ? res.json({reviews}) : res.json({error: 'Be the first to add a review'});
+    return reviews.length ? res.json({reviews}) : res.json({error: 'No reviews yet.'});
 })
 
 module.exports = router;
