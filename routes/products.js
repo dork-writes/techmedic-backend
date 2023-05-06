@@ -52,4 +52,19 @@ router.get('/getproduct/:id', getBoth, async(req, res)=>
         return res.status(500).json({error: 'Unexpected error occured.'});
     }
 });
+
+router.get('/getfeatured', async(req,res) =>
+{
+    try
+    {
+        const products = await Products.find();
+        return res.json({products: products.slice(0, 4)});
+    }
+
+    catch(err)
+    {
+        return res.status(500).json({error: 'Unexpected error occured.'});
+    }
+});
+
 module.exports = router;

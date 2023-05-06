@@ -36,4 +36,49 @@ router.get('/getReview/:productid', getBoth, async (req, res)=>{
     return reviews.length ? res.json({reviews}) : res.json({error: 'No reviews yet.'});
 })
 
+router.get('/getFeatured', async(req, res) =>
+{
+    try
+    {
+        const reviews = await Reviews.find();
+        let happyCustomers = 0;
+        let featuredReviews = [];
+        let dictionary = {};
+
+        for (let i of reviews)
+        {
+            if (i.Rating >= 4)
+            {
+                if (featuredReviews.length < 8)
+                {
+                    featuredReviews.push(i);
+                    if(dictionary[i.User] != 0)
+                    {
+                        dictionary[i.User] = 1;
+                    }
+                }
+
+                if (dictionary[i.User] == 1)
+                {
+                    dictionary[i.User] = 0;
+                    happyCustomers++;
+                }
+            }
+        }
+
+        for (let i of reviews)
+        {
+            let username = await User.findById(i.User).select('username');
+            i.User = username;
+        }
+        
+        return res.json({reviews: featuredReviews, happyCustomers});
+    }
+
+    catch(err)
+    {
+        return res.status(500).json({error: 'Unexpected error occured.'});
+    }
+});
+
 module.exports = router;
