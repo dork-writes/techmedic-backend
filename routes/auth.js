@@ -43,7 +43,7 @@ router.post('/register',
         }
 
         const authToken = jwt.sign(token, JWT_SECRET);
-        res.json(authToken);
+        res.json({authToken, permission: 'customer'});
     }
 
     catch(err)
