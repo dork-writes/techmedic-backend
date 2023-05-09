@@ -52,7 +52,7 @@ router.get('/getOrders', getUser, async(req,res) => {
     
     for (let i = 0; i < orders.length; i++)
     {
-        for(let j = 0; j < orders[0].Product.length; j++)
+        for(let j = 0; j < orders[i].Product.length; j++)
         {
             orders[i].Product[j] = await Product.findById(orders[i].Product[j]);
         }
