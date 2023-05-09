@@ -46,6 +46,20 @@ router.get('/getOrdersAdmin', getAdmin, async(req,res) => {
 
 router.get('/getOrders', getUser, async(req,res) => {
     let orders = await Order.find();
+    orders = orders.filter(r => r.User == req.user);
+    console.log(orders, req.user);
+    // console.log(orders[0].User, req.user)
+    
+    for (let i = 0; i < orders.length; i++)
+    {
+        for(let j = 0; j < orders[0].Product.length; j++)
+        {
+            orders[i].Product[j] = await Product.findById(orders[i].Product[j]);
+        }
+    }
+
+    // console.log(orders);
+
     return orders ? res.json({orders}) : res.json({error: 'No orders yet'});
 });
 
