@@ -32,8 +32,11 @@ async(req,res) => {
     {
         const product = await Product.findById(productss[i]);
         products.push(product);
+        await Product.findByIdAndUpdate(productss[i], {inStock: product.inStock - qt[i]});
     }
+
     console.log(products);
+
     const order = await Order.create({Product: products, User: user, Quantity: qt, Address: addr, Bill: bill, PaymentMethod: paymentMethod});
     return res.json(order);
 
@@ -58,9 +61,7 @@ router.get('/getOrders', getUser, async(req,res) => {
         }
     }
 
-    // console.log(orders);
-
-    return orders ? res.json({orders}) : res.json({error: 'No orders yet'});
+    return orders.length ? res.json({orders}) : res.json({error: 'No orders yet'});
 });
 
 module.exports = router;

@@ -16,7 +16,9 @@
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.11.15",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "stripe": "^12.4.0",
+    "uuid": "^9.0.0"
   },
   "repository": {
     "type": "git",

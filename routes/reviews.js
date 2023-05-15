@@ -33,7 +33,14 @@ router.get('/getReview/:productid', getBoth, async (req, res)=>{
     const {productid} = req.params;
     let reviews = await Reviews.find();
     reviews = reviews.length ? reviews.filter(r => r.Product.toString() === productid.toString()) : reviews;
-    return reviews.length ? res.json({reviews}) : res.json({error: 'No reviews yet.'});
+    let users = []
+    for (let i of reviews)
+    {
+        let user = await User.findById(i.User).select('username');
+        users.push(user.username);
+    }
+
+    return reviews.length ? res.json({reviews, users}) : res.json({error: 'No reviews yet.'});
 })
 
 router.get('/getFeatured', async(req, res) =>
@@ -49,7 +56,7 @@ router.get('/getFeatured', async(req, res) =>
         {
             if (i.Rating >= 4)
             {
-                if (featuredReviews.length < 8)
+                if (featuredReviews.length < 6)
                 {
                     featuredReviews.push(i);
                     if(dictionary[i.User] != 0)

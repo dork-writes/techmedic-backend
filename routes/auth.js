@@ -118,12 +118,14 @@ router.get('/getusername/:userID', getBoth, async(req, res) =>
     try
     {
         const {userID} = req.params;
+        console.log(userID);
         const user = await Users.findById(userID).select('-password').select('-permission');
-        return res.json(user.username);
+        return user ? res.json(user.username) : res.json({error: 'Does not exist'});
     }
 
     catch(err)
     {
+        console.log(err);
         return res.status(500).json({error: 'Unexpected error occured.'});
     }
 });
