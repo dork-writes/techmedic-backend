@@ -129,4 +129,22 @@ router.get('/getusername/:userID', getBoth, async(req, res) =>
         return res.status(500).json({error: 'Unexpected error occured.'});
     }
 });
+
+router.post('/setname', getUser, async(req, res) =>
+{
+    try
+    {
+        const {name} = req.body;
+        const userID = req.user;
+        await Users.findByIdAndUpdate(userID, {name}, {useFindAndModify: false});
+        return res.status(200);
+    }
+
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json({error: 'Unexpected error occured.'});
+    }
+});
+
 module.exports = router;

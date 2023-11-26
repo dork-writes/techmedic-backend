@@ -37,5 +37,5 @@ const OrderRepairSchema = new mongoose.Schema({
     }
 });
 
-const OrderRepair = mongoose.model('orderRepair', OrderRepairSchema);
+const OrderRepair = mongoose.model('repair-orders', OrderRepairSchema);
 module.exports = OrderRepair;
